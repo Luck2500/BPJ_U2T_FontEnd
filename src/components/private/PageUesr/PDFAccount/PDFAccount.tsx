@@ -4,12 +4,9 @@ import {
   View,
   Document,
   StyleSheet,
-  Font,
 } from "@react-pdf/renderer";
-import myCustomFont from "./NotoSerifThai-VariableFont_wdth,wght.ttf";
 import { Account } from "../../../../app/models/Account";
 
-Font.register({ family: "My Custom Font", src: myCustomFont });
 
 interface Prop {
   account: Account[];
@@ -63,7 +60,7 @@ function PDFAccount({ account }: Prop) {
       paddingTop: 16,
       paddingHorizontal: 40,
       paddingBottom: 56,
-      fontFamily: "My Custom Font",
+      fontFamily: "MyFont",
     },
 
     tableRow: {

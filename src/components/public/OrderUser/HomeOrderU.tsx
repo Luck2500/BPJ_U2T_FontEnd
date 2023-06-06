@@ -10,6 +10,7 @@ import {
 } from "../../../app/store/orderSlice";
 import { loadAccountStorage } from "../../../app/store/accountSlice";
 import { useAppDispatch } from "../../../app/store/configureStore";
+import { CalendarOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
 function HomeOrderU() {
   const account = loadAccountStorage();
@@ -74,14 +75,14 @@ function HomeOrderU() {
                               >
                                 <div>
                                   <span className="me-3">
-                                    <i className="fa fa-clock-o"></i>{" "}
+                                   
+                                  <CalendarOutlined style={{marginRight:"2px"}} /> {" "}
+                                    {moment
+                                      .utc(orderlist.created)
+                                      .format("DD/MM/YYYY")} <ClockCircleOutlined style={{marginRight:"2px"}}/>{" "}
                                     {moment
                                       .utc(orderlist.created)
                                       .format("HH:mm:ss")}{" "}
-                                    <i className="fa fa-calendar-o"></i>{" "}
-                                    {moment
-                                      .utc(orderlist.created)
-                                      .format("DD/MM/YYYY")}
                                   </span>
                                   <div
                                     className="me-3"
@@ -117,7 +118,7 @@ function HomeOrderU() {
                                       </>
                                     )}
 
-                                    <p>รหัสสินค้า : {orderlist.id}</p>
+                                    <p>หมายเลขสั่งซื้อ : {orderlist.id}</p>
                                   </div>
                                 </div>
                               </div>
@@ -133,7 +134,7 @@ function HomeOrderU() {
                                                 <div className="lg-grow-5 ms-4">
                                                   <img
                                                     src={
-                                                      "https://localhost:7141/images/" +
+                                                      "http://10.103.0.16/cs63/s18/PJEnd/images/" +
                                                       prorder.product.image
                                                     }
                                                     alt=""

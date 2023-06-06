@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
-//axios.defaults.baseURL = "http://10.103.0.16/cs63/s18/PJEnd/";
-axios.defaults.baseURL = "https://localhost:7141/";
+axios.defaults.baseURL = "http://10.103.0.16/cs63/s18/PJEnd/";
+//axios.defaults.baseURL = "https://localhost:7141/";
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 100));
 
@@ -63,18 +63,20 @@ const Account = {
     register: (value: any) =>requests.post('Account/RegisterAccount', value),
     // registerV2: (value: any) =>requests.post('Account/RegisterAccount', createFormData(value)),
     getAccountId: (id : any) => requests.get(`Account/GetAccountByID/${id}`),
-    update: (value: any,id :any) => requests.put(`Account/UpdateAccount?id=${id}`, createFormData(value)),
+    //update: (value: any,id :any) => requests.put(`Account/UpdateAccount?id=${id}`, createFormData(value)),
+    update: (value: any,id :any) => requests.post(`Account/UpdateAccount?id=${id}`, createFormData(value)),
     getAccountAll: () => requests.get('Account/GetAccountAll'),
-    removeAccount:(id : any) => requests.delete(`Account/DeleteAccount?id=${id}`),
+    //removeAccount:(id : any) => requests.delete(`Account/DeleteAccount?id=${id}`),
+    removeAccount:(id : any) => requests.post(`Account/DeleteAccount?id=${id}`,{}),
     
 };
 
 const Order = {
     create:(value: any) =>requests.post('OrderAccount/AddOrderCustomer', value),
     getOrderAccountId: (idAccount : any) => requests.get(`OrderAccount/GetAll/${idAccount}`),
-    update:(value:any) => requests.put("OrderAccount/PaymentOrder", createFormData(value)),
+    update:(value:any) => requests.post("OrderAccount/PaymentOrder", createFormData(value)),
     getconfirm: () => requests.get("OrderAccount/GetConfirmOrder"),
-    putconfirm:(value:any) => requests.put("OrderAccount/ConfirmOrder", createFormData(value)),
+    putconfirm:(value:any) => requests.post("OrderAccount/ConfirmOrder", createFormData(value)),
     getconfirmOrderAccountId: (idAccount : any) => requests.get(`OrderAccount/GetConfirmOrderAcc/${idAccount}`),
 };
 
@@ -83,14 +85,17 @@ const Role = {
 };
 
 const Report = {
-    getReport: () => requests.get(`Report/GetReport`),
+    getReport: (date : any = null) => {
+        if(date) return requests.get(`Report/GetReport?date=${date}`)
+       return requests.get(`Report/GetReport`)
+    },
 };
 
 const ProductDetailProcess = {
     addProductDetailProcess:(value:any) => requests.post('ProductDetailProcess/AddProductDetailProcess',createFormData(value)),
     getProductDetailProcessByIDProduct:(idProduct : any) => requests.get(`ProductDetailProcess/GetProductDetailProcessByIDProduct/${idProduct}`),
-    deleteProductDetailProcess:(idProduct : any)=> requests.delete(`ProductDetailProcess/DeleteProductDetailProcess?idProduct=${idProduct}`),
-    updateProductDetailProcess: (value: any) => requests.put("ProductDetailProcess/UpdateProductDetailProcess", createFormData(value)),
+    deleteProductDetailProcess:(idProduct : any)=> requests.post(`ProductDetailProcess/DeleteProductDetailProcess?idProduct=${idProduct}`,{}),
+    updateProductDetailProcess: (value: any) => requests.post("ProductDetailProcess/UpdateProductDetailProcess", createFormData(value)),
 };
 
 const Review = {
@@ -101,8 +106,8 @@ const Review = {
 const Cart = {
     getcartlist:(idAccount : any) => requests.get(`Cart/GetCartAll?idAccount=${idAccount}`),
     addcart:(value:any) => requests.post('Cart/AddCart',value),
-    removecart:(id : any) => requests.delete(`Cart/DeleteCart?id=${id}`),
-    updatecart:(value:any) => requests.put("Cart/UpdateCart",value)
+    removecart:(id : any) => requests.post(`Cart/DeleteCart?id=${id}`,{}),
+    updatecart:(value:any) => requests.post("Cart/UpdateCart",value)
 };
 
 const DetailProductImage = {
@@ -113,16 +118,16 @@ const DetailProductImage = {
         return requests.post("ProductDescription/AddProductDescription", formData)
     },
     get: (idProduct : any) => requests.get(`ProductDescription/GetDetailAll/${idProduct}`),
-    removeProductImage:(id : any) => requests.delete(`ProductDescription/DeleteProductDescription?id=${id}`),
+    removeProductImage:(id : any) => requests.post(`ProductDescription/DeleteProductDescription?id=${id}`,{}),
 }
 
 const Product = {
-    updateproduct:(value:any) => requests.put("Product/UpdateProduct",createFormData(value)),
+    updateproduct:(value:any) => requests.post("Product/UpdateProduct",createFormData(value)),
     getproduct: (value:any) =>
         requests.get(`Product/GetProduct?searchName=${value.searchName}&searchCategory=${value.searchCategory}&searchDistrict=${value.searchDistrict}`),
     details: (id : any)=> requests.get(`Product/GetProductByID/${id}`),
     create:(value: any) => requests.post("Product/AddProduct", createFormData(value)),
-    removeproduct:(id : any) => requests.delete(`Product/DeleteProduct?id=${id}`),
+    removeproduct:(id : any) => requests.post(`Product/DeleteProduct?id=${id}`,{}),
     getproductNew:() => requests.get('Product/GetProductAllNew'),
 };
 

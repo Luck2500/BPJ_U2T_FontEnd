@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  Descriptions,
-  Image,
-  Input,
-} from "antd";
+import { Button, Card, Descriptions, Image, Input } from "antd";
 import moment from "moment-timezone";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -12,10 +6,7 @@ import Swal from "sweetalert2";
 import useCart from "../../../app/hooks/useCart";
 import useProductDetailProcess from "../../../app/hooks/useProductDetailProcess";
 import useProducts from "../../../app/hooks/useProducts";
-import {
-  addCartItemAsync,
-  fetchCartAsync,
-} from "../../../app/store/cartSlice";
+import { addCartItemAsync, fetchCartAsync } from "../../../app/store/cartSlice";
 import {
   useAppDispatch,
   useAppSelector,
@@ -24,15 +15,22 @@ import {
   fetchProductDetailProcessByIdProductAsync,
   reSetDetailProduct,
 } from "../../../app/store/ProductDetailProcess";
-import {
-  fetchDetailProduct,
-} from "../../../app/store/productSlice";
+import { fetchDetailProduct } from "../../../app/store/productSlice";
 import { fetchReview } from "../../../app/store/reviewSlice";
 import { Form, Formik } from "formik";
 import agent from "../../../app/api/agent";
 import { loadAccountStorage } from "../../../app/store/accountSlice";
 import usedetailProduct from "../../../app/hooks/useDetailProductImage";
 import Slider from "react-slick";
+import Person2RoundedIcon from "@mui/icons-material/Person2Rounded";
+import { Typography } from "antd";
+import {
+  CalendarOutlined,
+  ClockCircleOutlined,
+  MinusOutlined,
+  PlusOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
 
 function HomeDetaliUV2() {
   const { idProduct } = useParams<{ idProduct: any }>();
@@ -45,10 +43,10 @@ function HomeDetaliUV2() {
   const [amount, setAmount] = useState<number | any>(0); // จำนวนสินค้าที่เราจะเพิ่มใส่ตะกร้า
   const { productDetailProcess, productDetailProcessLoaded } =
     useProductDetailProcess();
-
+  const { Text } = Typography;
   const { detailProductImage } = usedetailProduct();
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 750,
     slidesToShow: 1,
@@ -63,7 +61,6 @@ function HomeDetaliUV2() {
     );
   });
 
-  
   const item = carts?.find((i) => i.product.id);
 
   const values = {
@@ -73,7 +70,7 @@ function HomeDetaliUV2() {
     formFiles: "",
   };
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  
+
   useEffect(() => {
     if (productDetailProcessLoaded)
       dispatch(fetchProductDetailProcessByIdProductAsync(idProduct));
@@ -107,16 +104,15 @@ function HomeDetaliUV2() {
     } else {
       Swal.fire("กรุณาเพิ่มตระกร้าสินค้า", "", "warning");
     }
- };
- 
-  
+  };
+
   useEffect(() => {
     if (!item) setAmount(amount);
     dispatch(fetchDetailProduct(idProduct));
   }, [detailProduct, item, idProduct, dispatch]);
 
   useEffect(() => {
-     dispatch(fetchCartAsync(account?.id));
+    dispatch(fetchCartAsync(account?.id));
   }, [carts]);
 
   const handleInputChange = (event: any) => {
@@ -152,28 +148,34 @@ function HomeDetaliUV2() {
   const reviewtest = review?.map((rw: any) => {
     return (
       <>
-        <div className="col-sm-12" >
-          <ul style={{marginTop:"20px"}}>
+        <div className="col-sm-12">
+          <ul style={{ marginTop: "20px" }}>
             <li>
               <Link to="#">
-                <i className="fa fa-user"></i>
+                <Person2RoundedIcon style={{ fontSize: "18px" }} />
                 {rw.account?.name}
               </Link>
-            </li>
+            </li>{" "}
             <li>
               <Link to="#">
-                <i className="fa fa-clock-o"></i>
-                {moment.utc(rw.created).format("HH:mm:ss")}
-              </Link>
-            </li>
-            <li>
-              <Link to="#">
-                <i className="fa fa-calendar-o"></i>
+                <CalendarOutlined style={{ marginRight: "5px" }} />
                 {moment.utc(rw.created).format("DD/MM/YYYY")}
               </Link>
             </li>
+            <li>
+              <Link to="#">
+                <ClockCircleOutlined style={{ marginRight: "5px" }} />
+                {moment.utc(rw.created).format("HH:mm:ss")}
+              </Link>
+            </li>
           </ul>
-          <p>{rw.text}</p>
+          <Text
+            style={{
+              fontFamily: "Sriracha, cursive",
+            }}
+          >
+            <p>{rw.text}</p>
+          </Text>
           <hr />
         </div>
       </>
@@ -267,75 +269,77 @@ function HomeDetaliUV2() {
             </div>
             <div className="col-sm-8">
               <div className="product-information">
-                <h2>{detailProduct?.name}</h2>
+                <h2>สินค้า: {detailProduct?.name}</h2>
                 <p>รหัสสินค้า : {detailProduct?.id}</p>
 
                 <span>
                   <span>THB {detailProduct?.price} บาท</span>
-                  <br />
-                  <br />
-                  <br />
-                  <label>จำนวน:</label>
+                </span>
+                <p>
+                  <b>จำนวน : </b>
                   <Button onClick={() => amountChange(1, "remove")}>
-                    <i className="fa fa-minus">&nbsp;</i>
+                    <MinusOutlined style={{ margin: "2px" }} />
                   </Button>
-
                   <Input
                     onChange={handleInputChange}
                     style={{
                       fontSize: "22px",
                       fontFamily: "Sriracha, cursive",
                       marginLeft: "5px",
+                      width: "50px",
+                      height: "37.5px",
                     }}
                     min={1}
                     max={detailProduct?.stock}
                     value={amount}
                   />
                   <Button
-                    onClick={() => amountChange(1, "add")}
                     style={{ marginLeft: "5px" }}
+                    onClick={() => amountChange(1, "add")}
                   >
-                    <i className="fa fa-plus">&nbsp;</i>
+                    <PlusOutlined style={{ margin: "2px" }} />
                   </Button>
-                  {account ? (<><button
-                    type="button"
-                    disabled={!item && amount === 0}
-                    onClick={() =>
-                      AddCart(account?.id, detailProduct?.id, amount)
-                    }
-                    className="btn btn-fefault cart"
-                  >
-                    <i className="fa fa-shopping-cart"></i> หยิบใส่ตะกร้า
-                  </button></>):(<><button
-                    type="button"
-                    disabled={!item && amount === 0}
-                    onClick={() =>
-                      Swal.fire({
-                        title: 'กรุณาเข้าสู่ระบบ!',
-                        icon: 'warning',
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        
-                        confirmButtonText: 'เข้าสู่ระบบ'
-                      }).then((result)=>{
-                        if(result.isConfirmed){navigate("/login")}
-                        })
-                    }
-                    className="btn btn-fefault cart"
-                  >
-                    <i className="fa fa-shopping-cart"></i> หยิบใส่ตะกร้า
-                  </button></>)}
-                  {/* <button
-                    type="button"
-                    disabled={!item && amount === 0}
-                    onClick={() =>
-                      AddCart(account?.id, detailProduct?.id, amount)
-                    }
-                    className="btn btn-fefault cart"
-                  >
-                    <i className="fa fa-shopping-cart"></i> หยิบใส่ตะกร้า
-                  </button> */}
-                </span>
+                  {account ? (
+                    <>
+                      <button
+                        type="button"
+                        disabled={!item && amount === 0}
+                        onClick={() =>
+                          AddCart(account?.id, detailProduct?.id, amount)
+                        }
+                        className="btn btn-fefault cart"
+                      >
+                        <ShoppingCartOutlined style={{ margin: "2px" }} />{" "}
+                        หยิบใส่ตะกร้า
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        disabled={!item && amount === 0}
+                        onClick={() =>
+                          Swal.fire({
+                            title: "กรุณาเข้าสู่ระบบ!",
+                            icon: "warning",
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+
+                            confirmButtonText: "เข้าสู่ระบบ",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              navigate("/login");
+                            }
+                          })
+                        }
+                        className="btn btn-fefault cart"
+                      >
+                        <ShoppingCartOutlined style={{ margin: "2px" }} />{" "}
+                        หยิบใส่ตะกร้า
+                      </button>
+                    </>
+                  )}
+                </p>
                 <p>
                   <b>ประเภท :</b> {detailProduct?.categoryName}
                 </p>
@@ -345,7 +349,6 @@ function HomeDetaliUV2() {
                 <p>
                   <b>ตำบล :</b> {detailProduct?.districtName}
                 </p>
-                
               </div>
             </div>
           </div>
@@ -372,55 +375,87 @@ function HomeDetaliUV2() {
             </div>
             <div className="tab-content">
               <div className="tab-pane fade active in" id="details">
-                 <div className="form-group col-md-12"><b>รายละเอียด:</b> {detailProduct?.detailsinfo}</div>
-                {productDetailProcess &&
-                  React.Children.toArray(
-                    infoDetailProduct.map(({ info, title }) => (
-                      <>
-                        <div className="form-group col-md-8">
-                          <p style={{ fontSize: "14px", fontWeight: "bold" }}>
-                            วัตถุดิบ : {productDetailProcess?.nameRawMaterial}
-                          </p>
-                          <p style={{ fontSize: "14px", fontWeight: "bold" }}>
-                            ขั้นตอนการทำ :{" "}
-                            {productDetailProcess?.makeProductsprocess}
-                          </p>
-                          <Descriptions.Item
-                            labelStyle={{ fontWeight: "bold" }}
-                            label={title}
-                          >
-                            {info}
-                          </Descriptions.Item>
-                        </div>
-                      </>
-                    ))
-                  )}
+                <div className="bg">
+                  <div className="row">
+                    <div className="col-sm-6">
+                      <div className="contact-form">
+                        <div
+                          className="status alert alert-success"
+                          style={{ display: "none" }}
+                        ></div>
 
-                
-                 
-                
-                {/* <div className="form-group col-md-6">
-                  
-                  {productDetailProcess &&(
-                    <>
-                    <p style={{ fontSize: "14px", fontWeight: "bold" }}>
-                      วัตถุดิบ : {productDetailProcess?.nameRawMaterial}
-                    </p>
-                    <p style={{ fontSize: "14px", fontWeight: "bold" }}>
-                      ขั้นตอนการทำ : {productDetailProcess?.makeProductsprocess}
-                    </p>
-                    </>)}
-                    {!productDetailProcess && (
-                    <Empty
-                      image={Empty.PRESENTED_IMAGE_SIMPLE}
-                      description="ไม่มีข้อมูล"
-                      className="text-st"
-                    />
-                  )}
-                  
-                </div> */}
+                        <div className="form-group col-md-12">
+                          <Card style={{ margin: "4px" }}>
+                            {productDetailProcess &&
+                              React.Children.toArray(
+                                infoDetailProduct.map(({ info, title }) => (
+                                  <>
+                                    <div className="form-group col-md-12">
+                                      <Descriptions.Item
+                                        labelStyle={{ fontWeight: "bold" }}
+                                        label={title}
+                                      >
+                                        {info}
+                                      </Descriptions.Item>
+                                    </div>
+
+                                    <p
+                                      style={{
+                                        fontSize: "14px",
+                                        textAlign: "justify",
+                                      }}
+                                    >
+                                      <Text
+                                        style={{
+                                          fontFamily: "Sriracha, cursive",
+                                        }}
+                                      >
+                                        วัตถุการทำผลิตภัณฑ์:{" "}
+                                        {productDetailProcess.nameRawMaterial}
+                                      </Text>
+                                    </p>
+                                    <p
+                                      style={{
+                                        fontSize: "14px",
+                                        textAlign: "justify",
+                                      }}
+                                    >
+                                      <Text
+                                        style={{
+                                          fontFamily: "Sriracha, cursive",
+                                        }}
+                                      >
+                                        วิธีทำผลิตภัณฑ์:{" "}
+                                        {
+                                          productDetailProcess.makeProductsprocess
+                                        }
+                                      </Text>
+                                    </p>
+                                  </>
+                                ))
+                              )}
+                          </Card>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-sm-6">
+                      <div className="contact-info">
+                        <Card style={{ margin: "4px" }}>
+                          <p style={{ fontSize: "14px", textAlign: "justify" }}>
+                            <Text style={{ fontFamily: "Sriracha, cursive" }}>
+                              รายละเอียดสินค้า: {detailProduct?.detailsinfo}
+                            </Text>
+                          </p>
+                        </Card>
+
+                        <div className="form-group col-md-11"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="tab-pane fade" id="reviewsII">
+              <div className="tab-pane " id="reviewsII">
                 <div className="col-sm-12">
                   <Formik
                     initialValues={values}
@@ -430,41 +465,47 @@ function HomeDetaliUV2() {
                       handleSubmitForm(values);
                     }}
                   >
-                    {({
-                      values,
-                      handleChange,
-                      handleBlur,
-                      handleSubmit,
-                    }) => {
+                    {({ values, handleChange, handleBlur, handleSubmit }) => {
                       return (
                         <>
-                        {account ? (
-                        <Card><Form onSubmit={handleSubmit}>
-                        <span>
-                          <i className="fa fa-user"></i> {account?.name}
-                        </span>
-                        <textarea
-                          className="form-control ml-1 shadow-none textarea"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          name="text"
-                          value={values.text}
-                          placeholder="เเสดงความคิดเห็น"
-                        ></textarea>
-                        {/* <button className="btn gradient-btn">ตกลง</button> */}
-                        <button className="btn btn-default pull-right">
-                          ส่ง
-                        </button>
-                      </Form></Card>
-                      ) : (
-                        <>
-                        <div style={{textAlign:"center"}}>
-                          <h5>เข้าสู่ระบบเพื่อแสดงความคิดเห็น</h5>
-                          <Button onClick={()=>{navigate("/login")}}>เข้าสู่ระบบ</Button>
-                        </div>
-                        </>
-                      )}
-                        
+                          {account ? (
+                            <Card>
+                              <Form onSubmit={handleSubmit}>
+                                <span>
+                                  <Person2RoundedIcon
+                                    style={{ fontSize: "18px" }}
+                                  />{" "}
+                                  {account?.name}
+                                </span>
+                                <textarea
+                                  style={{ backgroundColor: "#f9f9f9" }}
+                                  className="form-control ml-1 shadow-none textarea"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  name="text"
+                                  value={values.text}
+                                  placeholder="เเสดงความคิดเห็น"
+                                ></textarea>
+                                {/* <button className="btn gradient-btn">ตกลง</button> */}
+                                <button className="btn btn-default pull-right">
+                                  ส่ง
+                                </button>
+                              </Form>
+                            </Card>
+                          ) : (
+                            <>
+                              <div style={{ textAlign: "center" }}>
+                                <h5>เข้าสู่ระบบเพื่อแสดงความคิดเห็น</h5>
+                                <Button
+                                  onClick={() => {
+                                    navigate("/login");
+                                  }}
+                                >
+                                  เข้าสู่ระบบ
+                                </Button>
+                              </div>
+                            </>
+                          )}
                         </>
                       );
                     }}
@@ -482,6 +523,7 @@ function HomeDetaliUV2() {
                     </button>
                   </form> */}
                 </div>
+
                 {reviewtest}
               </div>
 

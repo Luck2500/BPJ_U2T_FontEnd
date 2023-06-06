@@ -138,7 +138,7 @@ const ModalFormOrder = ({
             <div className="container">
               <div className="cardd mt-5 mb-5 ">
                 <div className="cardd-title mx-auto">
-                  หมายเลขใบสั่งชื้อ : {idOrder}
+                  หมายเลขสั่งชื้อ : {idOrder}
                 </div>
 
                 <Form onFinish={handleSubmit}>

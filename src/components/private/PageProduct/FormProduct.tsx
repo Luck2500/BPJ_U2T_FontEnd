@@ -76,8 +76,7 @@ const FormProduct = () => {
         title: "บันทึกข้อมูลสำเร็จ",
         showConfirmButton: false,
         timer: 1500,
-      }).then(() => navigate(-1)),
-        window.location.replace("/admin/listproduct");
+      }).then(() => navigate(-1))
   };
 
   return (

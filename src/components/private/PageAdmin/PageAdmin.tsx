@@ -1,7 +1,7 @@
 import LayoutAdmin from "./LayoutAdmin";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import StoreIcon from "@mui/icons-material/Store";
-import { Button, Card, Col, Empty, Row, Space, Statistic } from "antd";
+import { Button, Card, Col, DatePickerProps, Empty, Row, Space, Statistic } from "antd";
 import useProducts from "../../../app/hooks/useProducts";
 import {
   useAppDispatch,
@@ -26,6 +26,8 @@ import agent from "../../../app/api/agent";
 import { Report } from "../../../app/models/Report";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFOrderConfirm from "./charts/PDFOrderConfirm/PDFOrderConfirm";
+
+import { DatePicker } from 'antd';
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
 
 export const options = {
@@ -39,7 +41,7 @@ const PageAdmin = () => {
   const { DropdownChartTypeSalesStatistics, typeChartSalesStatistics } =
     useDropdownChart();
   const { datareport } = useReport();
-
+  const [ year, setYear] = useState<any | null>(null);
   const [infoReport, setInfoReport] = useState<Report | null>(null);
   const dispatch = useAppDispatch();
   const { product } = useProducts();
@@ -54,10 +56,20 @@ const PageAdmin = () => {
     loadReport();
   }, []);
 
-  const loadReport = async () => {
-    const { data } = await agent.Report.getReport();
+  const loadReport = async (date : any = null) => {
+    const { data } = await agent.Report.getReport(date);
     if (data) setInfoReport(data);
   };
+
+
+  const onChange: DatePickerProps['onChange'] = async (_, dateString) => {
+    if(dateString)
+    loadReport(Number(dateString) || setYear(new Date(dateString).getFullYear()));
+    
+    else
+    loadReport();
+  };
+
   return (
     <LayoutAdmin>
       <section className="text-center">
@@ -97,10 +109,10 @@ const PageAdmin = () => {
           </div>
 
           <div className="col-lg-3 col-md-6 mb-5 mb-md-0 position-relative">
-            <Card bordered={false} style={{ width: "100%", height: "100%" }}>
+            <Card bordered={false} style={{ width: "100%", height: "100%" }} >
               <MoneyCollectFilled style={{ fontSize: "107px" }} />
 
-              <Statistic title="รายได้โดยรวม" value={datareport?.totalPrice} />
+              <Statistic title="รายได้โดยรวมต่อปี" value={infoReport ? infoReport?.totalPrice : datareport?.totalPrice}  />
               <h5>บาท</h5>
             </Card>
           </div>
@@ -109,13 +121,15 @@ const PageAdmin = () => {
           <Col className="gutter-row center" span={24}>
             {datareport && datareport.sales?.length > 0 ? (
               <>
+             
                 <Card
                   title="รายงานสถิติการขาย"
                   extra={
-                    <>
+                    <> 
+                    <DatePicker placeholder="กำหนดปี" onChange={onChange} picker="year" style={{ marginTop: "5px", marginRight: "5px" }} />
                       <PDFDownloadLink
                         document={
-                          <PDFOrderConfirm report={datareport as Report} />
+                          <PDFOrderConfirm report={infoReport as Report} year={year} />
                         }
                         fileName="รายงานสินค้า.pdf"
                       >

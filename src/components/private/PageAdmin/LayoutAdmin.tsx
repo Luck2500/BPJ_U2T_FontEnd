@@ -40,7 +40,7 @@ const LayoutAdmin = ({ children }: any) => {
         navigate("/admin/order");
         break;
       case "5":
-        navigate("/");
+        navigate("/cs63/s18/PJEnd/");
         break;
       // case "9":
       //   navigate("/");

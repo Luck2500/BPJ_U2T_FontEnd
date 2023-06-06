@@ -55,7 +55,7 @@ const PageOrder = () => {
               <div className="card h-100">
                 <p style={{textAlignLast:"center", fontWeight:"bold"}}>หลักฐานการชำระเงิน</p>
                 <Image
-                  src={"https://localhost:7141/images/"+ ord.proofOfPayment}
+                  src={"http://10.103.0.16/cs63/s18/PJEnd/images/"+ ord.proofOfPayment}
                   style={{ width: "100%", height:"300px", display:"flex", justifyContent:"center" }}
                   className="card-img-top"
                   alt="..."

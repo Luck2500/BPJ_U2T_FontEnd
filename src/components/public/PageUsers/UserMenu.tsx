@@ -4,12 +4,14 @@ import { Avatar } from "antd";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { fetchAccount, loadAccountStorage, logout } from "../../../app/store/accountSlice";
+import Person2RoundedIcon from '@mui/icons-material/Person2Rounded';
 import {
   useAppDispatch,
 } from "../../../app/store/configureStore";
 import { useEffect } from "react";
 import { CartMenu } from "./CartMenu";
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
+import { DownOutlined } from "@ant-design/icons";
 
 
 export const UserMenu = () => {
@@ -23,7 +25,7 @@ export const UserMenu = () => {
     <>
       <ul className="nav navbar-nav collapse navbar-collapse">
         <li>
-          <Link to="/">หน้าแรก</Link>
+          <Link to="/cs63/s18/PJEnd/">หน้าแรก</Link>
         </li>
 
         <li className="dropdown">
@@ -56,7 +58,7 @@ export const UserMenu = () => {
                     style={{ width: "40px", height: "40px" }}
                     className="avatar"
                   />{" "}
-                  {account?.name} <i className="fa fa-angle-down"></i>
+                  {account?.name} <DownOutlined style={{ fontSize: '15px',textAlign:"center"}} />
                 </Link>
               </div>
 
@@ -67,7 +69,7 @@ export const UserMenu = () => {
               >
                 <li>
                   <Link to={"/userprofile/infoprofile"}>
-                    <i className="fa fa-user"></i>
+                    <Person2RoundedIcon style={{fontSize:"18px"}}/>
                     {""} บัญชีของฉัน
                   </Link>
                 </li>
@@ -105,6 +107,7 @@ export const UserMenu = () => {
                       }).then((result) => {
                         if (result.isConfirmed && dispatch(logout())) {
                           Swal.fire("เรียบร้อย", "ออกสู่ระบบสำเร็จ", "success");
+                          
                         }
                       })
                     }

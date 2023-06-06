@@ -19,7 +19,7 @@ export default class SliderU extends Component {
             <div className="item active">
               <div className="col-sm-6">
                 <h1>
-                  U<span>2</span>T
+                  U<span>2</span>T กาญจนบุรี
                 </h1>
                 <h2>สเปย์ปรับอากาศไล่ยุ่งสูตรใหม่</h2>
                 <p>✅ฉีดเดียวได้ทั้งกันยุงและป้องกันเชื้อโรค</p>
@@ -51,7 +51,7 @@ export default class SliderU extends Component {
             <div className="item active">
               <div className="col-sm-6">
                 <h1>
-                  U<span>2</span>T
+                  U<span>2</span>T กาญจนบุรี
                 </h1>
                 <h2>พริกแกงรสเด็ด</h2>
                 <p>เพื่อทำเป็นอาหารชนิดใดชนิดหนึ่งตามชนิดของเครื่องปรุงแต่งกลิ่น</p>

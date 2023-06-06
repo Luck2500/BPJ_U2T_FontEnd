@@ -1,11 +1,11 @@
 import { Input } from "antd";
 import { Formik, Form, ErrorMessage } from "formik";
-
-import { Link, useNavigate} from "react-router-dom";
+import {BiLockAlt} from "react-icons/bi"
+import { Link} from "react-router-dom";
 import swal from "sweetalert";
 import { loginAccount } from "../../../app/store/accountSlice";
 import { useAppDispatch } from "../../../app/store/configureStore";
-
+import { MdEmail } from "react-icons/md"
 import { LoginValidate } from "./AccontValidate";
 import "./Regiter.css";
 
@@ -13,7 +13,7 @@ const value = { email: "", password: "" };
 
 function LoginU() {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const submitForm = async (data: any) => {
     const result = await dispatch(loginAccount(data)).unwrap();
     if (result.msg === "OK") {
@@ -22,7 +22,8 @@ function LoginU() {
         icon: "success",
         buttons: [false, "ตกลง"],
       }).then(() => {
-        navigate("/");
+        //navigate("/cs63/s18/PJEnd/");
+        window.location.replace("/cs63/s18/PJEnd/");
       });
     } else {
       swal({
@@ -70,7 +71,7 @@ function LoginU() {
                           type="text"
                           size="large"
                           prefix={
-                            <i aria-hidden="true" className="fa fa-envelope" />
+                            <MdEmail/>
                           }
                           status={touched.email && errors.email ? "error" : ""}
                           name="email"
@@ -96,7 +97,7 @@ function LoginU() {
                         
                         type="password"
                         size="large"
-                        prefix={<i aria-hidden="true" className="fa fa-lock" />}
+                        prefix={<BiLockAlt/>}
                         status={
                           touched.password && errors.password ? "error" : ""
                         }

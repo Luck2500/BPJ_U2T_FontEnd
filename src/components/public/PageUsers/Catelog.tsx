@@ -33,12 +33,12 @@ function Catelog() {
                             style={{ height: "350px" }}
                           >
                             <div className="productinfo text-center">
-                            <img src={dtri.image}  style={{ height: "150px" }} alt="Random" />
+                            <img src={dtri?.image}  style={{ height: "150px" }} alt="Random" />
 
                               <h4 style={{ fontWeight: "bold" }}>
                                 ตำบล : {dtri?.name}
                               </h4>
-                              <span>{dtri.textDistrict}</span>
+                              <span>{dtri?.textDistrict}</span>
                               <br />
                               <br />
                             </div>

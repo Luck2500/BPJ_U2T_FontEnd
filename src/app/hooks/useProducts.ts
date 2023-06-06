@@ -18,7 +18,7 @@ const useProducts = () => {
 
 
     useEffect(() => {
-        if (!productsLoaded) dispatch(fetchProduct());
+         dispatch(fetchProduct());
     }, [productsLoaded, dispatch]);
 
     useEffect(() => {

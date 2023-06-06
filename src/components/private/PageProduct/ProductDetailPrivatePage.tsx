@@ -45,9 +45,8 @@ import { Form, Formik } from "formik";
 import agent from "../../../app/api/agent";
 import { useDropzone } from "react-dropzone";
 import usedetailProduct from "../../../app/hooks/useDetailProductImage";
-import {
-  fetchImageProductsAsync,
-} from "../../../app/store/detailProductImage";
+import { fetchImageProductsAsync } from "../../../app/store/detailProductImage";
+import { Typography } from "antd";
 
 const ProductDetailPrivatePage = () => {
   const dispatch = useAppDispatch();
@@ -58,6 +57,7 @@ const ProductDetailPrivatePage = () => {
   const { state } = useLocation();
   const [urlModal, setUrlModal] = useState<string>("");
   const { detailProduct } = useProducts();
+  const { Text } = Typography;
   const { productDetailProcess, productDetailProcessLoaded } =
     useProductDetailProcess();
   const product = useAppSelector((state) =>
@@ -138,7 +138,6 @@ const ProductDetailPrivatePage = () => {
     };
   }, [productDetailProcessLoaded, dispatch]);
 
-
   const infoProduct = [
     { title: "ชื่อ", info: detailProduct?.name },
     {
@@ -172,10 +171,14 @@ const ProductDetailPrivatePage = () => {
   ];
 
   const infoDetailProduct = [
-    { title: "ชื่อวัตถุดิบ", info: productDetailProcess?.nameRawMaterial },
-    { title: "ขั้นตอนการทำ", info: productDetailProcess?.makeProductsprocess },
+    { title: "วัตถุการทำผลิตภัณฑ์", info:(<Text style={{
+      fontFamily: "Sriracha, cursive",
+    }}>{productDetailProcess?.nameRawMaterial}</Text>)  },
+    { title: "วิธีทำผลิตภัณฑ์", info: (<Text style={{
+      fontFamily: "Sriracha, cursive",
+    }}>{productDetailProcess?.makeProductsprocess}</Text>) },
     {
-      title: "วิดีโอ",
+      title: "วิดีโอเสนอสินค้า",
       info: (
         <div
           style={{
@@ -363,16 +366,15 @@ const ProductDetailPrivatePage = () => {
                 }}
               >
                 {({
-                 
                   handleSubmit,
-              
+
                   setFieldValue,
                 }) => {
                   const { getRootProps, getInputProps } = useDropzone({
                     accept: {
                       "image/*": [],
                     },
-                    onDrop: (acceptedFiles:any) => {
+                    onDrop: (acceptedFiles: any) => {
                       const maxFile = 4;
                       const amountFile =
                         detailProductImage &&
@@ -392,7 +394,7 @@ const ProductDetailPrivatePage = () => {
                       } else {
                         setFieldValue("formFiles", acceptedFiles);
                         setFiles(
-                          acceptedFiles.map((file:any) =>
+                          acceptedFiles.map((file: any) =>
                             Object.assign(file, {
                               preview: URL.createObjectURL(file),
                             })
@@ -465,12 +467,20 @@ const ProductDetailPrivatePage = () => {
                 )}
               </Descriptions>
               <div style={{ fontWeight: "bold" }}>รายละเอียด:</div>
-              <div>{detailProduct?.detailsinfo}</div>
+              <div>
+                <Text
+                  style={{
+                    fontFamily: "Sriracha, cursive",
+                  }}
+                >
+                  {detailProduct?.detailsinfo}
+                </Text>
+              </div>
             </Card>
             <Card style={{ width: "100%" }}>
               <Descriptions
                 column={1}
-                title="รายละเอียดเพิ่มเติม"
+                title="การส่งเสริมผลิตภัณฑ์"
                 className="text-st"
                 extra={extraDetail}
               >

@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import { UserMenu } from "./UserMenu";
+import { PhoneFilled } from "@ant-design/icons";
+import EmailIcon from '@mui/icons-material/Email';
 
 const HeaderUser = () => {
   return (
@@ -13,12 +15,12 @@ const HeaderUser = () => {
                   <ul className="nav nav-pills">
                     <li>
                       <a href="#">
-                        <i className="fa fa-phone"></i> 0648078634
+                      <PhoneFilled /> 064-807-8634
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i className="fa fa-envelope"></i> 63123250118@kru.ac.th
+                      <EmailIcon/> 63123250118@kru.ac.th
                       </a>
                     </li>
                   </ul>
@@ -30,12 +32,6 @@ const HeaderUser = () => {
                     <li>
                       <a href="https://www.facebook.com/sutanat.kampool" target="_blank">
                         <i className="fa fa-facebook"></i>
-                      </a>
-                    </li>
-                    
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-google-plus"></i>
                       </a>
                     </li>
                   </ul>

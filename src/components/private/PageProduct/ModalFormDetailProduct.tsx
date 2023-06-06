@@ -141,7 +141,7 @@ const ModalFormDetailProduct = ({
 
         return (
           <Modal
-            title="เพิ่มรายละเอียด"
+            title="การส่งเสริมผลิตภัณฑ์"
             className="text-st"
             confirmLoading={isSubmitting}
             okText={<Ts>ตกลง</Ts>}
@@ -159,7 +159,7 @@ const ModalFormDetailProduct = ({
               >
                 <Row gutter={24}>
                   <Col span={12}>
-                    <Form.Item label={<Ts>ชื่อวัคถุดิบ</Ts>}>
+                    <Form.Item label={<Ts>วัตถุการทำผลิตภัณฑ์</Ts>}>
                       <Input.TextArea
                         status={
                           touched.nameRawMaterial && errors.nameRawMaterial
@@ -176,7 +176,7 @@ const ModalFormDetailProduct = ({
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label={<Ts>ขั้นตอนการทำ</Ts>}>
+                    <Form.Item label={<Ts>วิธีทำผลิตภัณฑ์</Ts>}>
                       <Input.TextArea
                         status={
                           touched.makeProductsprocess &&

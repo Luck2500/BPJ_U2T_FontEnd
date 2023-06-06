@@ -2,12 +2,12 @@ import { Button, Empty } from "antd";
 import { Link } from "react-router-dom";
 import { fetchCartAsync, updateCartAsync } from "../../../app/store/cartSlice";
 import { useAppDispatch } from "../../../app/store/configureStore";
-import FooterU from "../PageUsers/FooterU";
 import { InputNumber } from "antd";
 import Swal from "sweetalert2";
 import agent from "../../../app/api/agent";
 import useCart from "../../../app/hooks/useCart";
 import { ItemRequest, OrderRequest } from "../../../app/models/Order";
+import { CloseOutlined } from "@ant-design/icons";
 
 function CartU() {
   const { account } = JSON.parse(localStorage.getItem("account")!);
@@ -57,19 +57,19 @@ function CartU() {
       }).then(() => dispatch(fetchCartAsync(account.id)));
     } else {
       Swal.fire({
-        position: "center",
+        title: "กรุณาหยิบสินค้าใส่ตะกร้า!",
         icon: "warning",
-        title: "บันทึกไม่สำเร็จ",
-        showConfirmButton: false,
-        timer: 1000,
-      });
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ตกลง",
+      })
     }
     console.log(result);
   };
 
   const DeleteCart = (id: any) => {
     Swal.fire({
-      title: "คุณต้องการลบสินค้าในตะกร้า?",
+      title: "คุณต้องการยกเลิกสินค้าในตะกร้า?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -177,7 +177,7 @@ function CartU() {
                                 danger
                                 className="cart_quantity_delete"
                               >
-                                <i className="fa fa-times"></i>
+                                <CloseOutlined />
                               </Button>
                             </td>
                           </tr>

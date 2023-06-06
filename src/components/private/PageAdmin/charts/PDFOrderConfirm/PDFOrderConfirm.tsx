@@ -1,63 +1,60 @@
-import {
-  Page,
-  Text,
-  View,
-  Document,
+import ReactPDF, {
   StyleSheet,
-  Font,
+
 } from "@react-pdf/renderer";
-import myCustomFont from "./NotoSerifThai-VariableFont_wdth,wght.ttf";
+
 import { Report, Sale } from "../../../../../app/models/Report";
 
-Font.register({ family: "My Custom Font", src: myCustomFont });
+
 
 interface Prop {
   report: Report;
+  year: any|null;
 }
 
 // Create Document Component
 function PDFOrderConfirm({ report }: Prop) {
-  const createTableHeader = (): JSX.Element => {
+  const createTableHeader = () => {
     return (
       <>
-        <View style={styles.tableRow} fixed>
-          <View style={styles.tableColHeaderB}>
-            <Text>ตำบล </Text>
-          </View>
-          <View style={styles.tableColHeader}>
-            <Text>รายได้โดยรวม %</Text>
-          </View>
-          <View style={styles.tableColHeaderA}>
-            <Text>รายได้รวม</Text>
-          </View>
-        </View>
+        <ReactPDF.View style={styles.tableRow} fixed>
+          <ReactPDF.View style={styles.tableColHeaderB}>
+            <ReactPDF.Text>ตำบล </ReactPDF.Text>
+          </ReactPDF.View>
+          <ReactPDF.View style={styles.tableColHeader}>
+            <ReactPDF.Text>รายได้โดยรวม %</ReactPDF.Text>
+          </ReactPDF.View>
+          <ReactPDF.View style={styles.tableColHeaderA}>
+            <ReactPDF.Text>รายได้รวม</ReactPDF.Text>
+          </ReactPDF.View>
+        </ReactPDF.View>
 
         <>
-          {report.sales?.map((ez: Sale) => {
+          {report ? report.sales?.map((ez: Sale) => {
             return (
               <>
-                <View style={styles.tableRow}>
-                  <View style={styles.tableColB}>
-                    <Text>{ez.districtName}</Text>
-                  </View>
-                  <View style={styles.tableCol}>
-                     <Text>{ez.percent.toFixed(2)} %</Text>
-                  </View>
-                  <View style={styles.tableColA}>
-                   <Text>{`${new Intl.NumberFormat().format(ez.price as any)}`} บาท </Text>
-                  </View>
-                </View>
+                <ReactPDF.View style={styles.tableRow}>
+                  <ReactPDF.View style={styles.tableColB}>
+                    <ReactPDF.Text>{ez.districtName}</ReactPDF.Text>
+                  </ReactPDF.View>
+                  <ReactPDF.View style={styles.tableCol}>
+                     <ReactPDF.Text>{ez.percent.toFixed(2)} %</ReactPDF.Text>
+                  </ReactPDF.View>
+                  <ReactPDF.View style={styles.tableColA}>
+                   <ReactPDF.Text>{`${new Intl.NumberFormat().format(ez.price as any)}`} บาท </ReactPDF.Text>
+                  </ReactPDF.View>
+                </ReactPDF.View>
               </>
             );
-          })}
-          <View style={styles.tableRow}>
-            <View style={styles.tableColC}>
-              <Text>ยอดรวม </Text>
-            </View>
-            <View style={styles.tableColA}>
-              <Text>{`${new Intl.NumberFormat().format(report.totalPrice as any)}` } บาท</Text>
-            </View>
-          </View>
+          }) : ""}
+          <ReactPDF.View style={styles.tableRow}>
+            <ReactPDF.View style={styles.tableColC}>
+              <ReactPDF.Text>ยอดรวม </ReactPDF.Text>
+            </ReactPDF.View>
+            <ReactPDF.View style={styles.tableColA}>
+              <ReactPDF.Text>{`${new Intl.NumberFormat().format(report ? report.totalPrice : 0 )}` } บาท</ReactPDF.Text>
+            </ReactPDF.View>
+          </ReactPDF.View>
         </>
       </>
     );
@@ -65,13 +62,15 @@ function PDFOrderConfirm({ report }: Prop) {
 
   const styles = StyleSheet.create({
     pageStyle: {
+      fontFamily: "MyFont",
       paddingTop: 16,
       paddingHorizontal: 40,
       paddingBottom: 56,
-      fontFamily: "My Custom Font",
+      
     },
 
     tableRow: {
+      fontFamily: "MyFont",
       flexDirection: "row",
     },
 
@@ -166,12 +165,12 @@ function PDFOrderConfirm({ report }: Prop) {
 
   return (
     <>
-      <Document>
-        <Page style={styles.pageStyle} size="A4" orientation="portrait">
-          <Text>ยอดรายได้ตำบลทั้งหมด </Text>
-          <View style={styles.table}>{createTableHeader()}</View>
-        </Page>
-      </Document>
+      <ReactPDF.Document>
+        <ReactPDF.Page style={styles.pageStyle} size="A4" orientation="portrait">
+          <ReactPDF.Text >ยอดรายได้ตำบลทั้งหมด </ReactPDF.Text>
+          <ReactPDF.View style={styles.table}>{createTableHeader()}</ReactPDF.View>
+        </ReactPDF.Page>
+      </ReactPDF.Document>
     </>
   );
 }

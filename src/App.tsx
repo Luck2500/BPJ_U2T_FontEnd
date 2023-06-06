@@ -34,9 +34,12 @@ import AccountDetailPrivatePage from "./components/private/PageUesr/AccountDetai
 import AboutU from "./components/public/About/AboutU";
 import PageOrder from "./components/private/PageOrder/PageOrder";
 import HomeOrderHis from "./components/public/OrderHistory/HomeOrderHis";
-
+import myFont from "./NotoSerifThai-VariableFont_wdth,wght.ttf";
+import { Font } from "@react-pdf/renderer";
 
 function App() {
+  Font.register({ family: "MyFont", src:"/Cs63/s18/PJEnd/"+ myFont, });
+  //Font.register({ family: "MyFont", src: myFont, });
   const pathname = window.location.pathname;
   const dispatch = useAppDispatch();
   // eslint-disable-next-line no-empty-pattern
@@ -72,8 +75,8 @@ function App() {
       {!pathname.includes("/admin") && <HeaderUser/>}
       
       <Routes>
-        {/* <Route path="http://10.103.0.16/cs63/s18/PJEnd/" element={<HomePageU/>} /> */}
-        <Route path="/" element={<HomePageU/>} />
+        <Route path="/cs63/s18/PJEnd/" element={<HomePageU/>} />
+        {/* <Route path="/" element={<HomePageU/>} /> */}
         <Route
           path="/login"
           element={
